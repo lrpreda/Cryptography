@@ -23,7 +23,7 @@ public class EncryptMain extends CryptographyAbstract {
     private File secKeyRing;
     private String secKeyRingPassword;
 
-    void EncryptMain(final String sender, final String recipient, final File pubKeyRing,
+    public EncryptMain(final String sender, final String recipient, final File pubKeyRing,
             final File secKeyRing, final String secKeyRingPassword) {
         this.sender = sender;
         this.recipient = recipient;
@@ -48,7 +48,7 @@ public class EncryptMain extends CryptographyAbstract {
             final int BUFFSIZE = 8 * 1024;
             System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
 
-            final KeyringConfig keyringConfig = KeyringConfigs.withKeyRingsFromFiles(pubKeyRing,
+             final KeyringConfig keyringConfig = KeyringConfigs.withKeyRingsFromFiles(pubKeyRing,
                     secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
 
             try (

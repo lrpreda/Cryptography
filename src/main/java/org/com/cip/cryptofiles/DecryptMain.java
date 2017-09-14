@@ -18,7 +18,7 @@ public class DecryptMain extends CryptographyAbstract {
     private File secKeyRing;
     private String secKeyRingPassword;
 
-    void DecryptMain(final File pubKeyRing, final File secKeyRing, final String secKeyRingPassword) {
+    public DecryptMain(final File pubKeyRing, final File secKeyRing, final String secKeyRingPassword) {
         this.pubKeyRing = pubKeyRing;
         this.secKeyRing = secKeyRing;
         this.secKeyRingPassword = secKeyRingPassword;

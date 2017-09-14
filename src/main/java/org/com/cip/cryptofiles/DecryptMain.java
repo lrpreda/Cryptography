@@ -12,7 +12,7 @@ import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.keyrings.Keyring
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.keyrings.KeyringConfigs;
 import org.bouncycastle.util.io.Streams;
 
-public class DecryptMain extends Cryptography {
+public class DecryptMain extends CryptographyAbstract {
 
     private File pubKeyRing;
     private File secKeyRing;

@@ -15,7 +15,7 @@ import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.keyrings.Keyring
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.keyrings.KeyringConfigs;
 import org.bouncycastle.util.io.Streams;
 
-public class EncryptMain extends Cryptography {
+public class EncryptMain extends CryptographyAbstract {
 
     private String sender;
     private String recipient;

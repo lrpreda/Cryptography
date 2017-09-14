@@ -14,9 +14,9 @@ import org.bouncycastle.util.io.Streams;
 
 public class DecryptMain extends CryptographyAbstract {
 
-    private File pubKeyRing;
-    private File secKeyRing;
-    private String secKeyRingPassword;
+    private final File pubKeyRing;
+    private final File secKeyRing;
+    private final String secKeyRingPassword;
 
     public DecryptMain(final File pubKeyRing, final File secKeyRing, final String secKeyRingPassword) {
         this.pubKeyRing = pubKeyRing;

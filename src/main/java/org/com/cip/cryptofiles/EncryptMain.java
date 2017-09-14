@@ -17,11 +17,11 @@ import org.bouncycastle.util.io.Streams;
 
 public class EncryptMain extends CryptographyAbstract {
 
-    private String sender;
-    private String recipient;
-    private File pubKeyRing;
-    private File secKeyRing;
-    private String secKeyRingPassword;
+    private final String sender;
+    private final String recipient;
+    private final File pubKeyRing;
+    private final File secKeyRing;
+    private final String secKeyRingPassword;
 
     public EncryptMain(final String sender, final String recipient, final File pubKeyRing,
             final File secKeyRing, final String secKeyRingPassword) {
@@ -52,6 +52,7 @@ public class EncryptMain extends CryptographyAbstract {
                     secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
 
             try (
+                    //Configs.keyringConfigFromResourceForRecipient() ???
                     final OutputStream fileOutput = Files.newOutputStream(destFile);
                     final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
                     final OutputStream outputStream = BouncyGPG

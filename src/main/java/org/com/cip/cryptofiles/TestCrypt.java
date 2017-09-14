@@ -25,9 +25,9 @@ public class TestCrypt {
         
         EncryptMain encry = new EncryptMain(lProp.getValue("sender"), lProp.getValue("receipt"), pubKey, seckey, lProp.getValue("keyPassword"));
        File f = new File("c://dev_tools//FILETO.txt");
+       File fout = new File("c://dev_tools//FILETO2.txt");
        
-       
-        encry.encrypt(new FileInputStream(f), f.toPath());
+        encry.encrypt(new FileInputStream(f), fout.toPath());
     }
     
 }

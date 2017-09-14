@@ -6,30 +6,22 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.Security;
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.BouncyGPG;
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.callbacks.KeyringConfigCallbacks;
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.keyrings.KeyringConfig;
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.keyrings.KeyringConfigs;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.io.Streams;
 
-public class DecryptMain {
+public class DecryptMain extends Cryptography {
 
     private File pubKeyRing;
     private File secKeyRing;
-    private String secKeyRingPassword ;
+    private String secKeyRingPassword;
 
-    void DecryptMain(final File pubKeyRing, final File secKeyRing, final String secKeyRingPassword){
+    void DecryptMain(final File pubKeyRing, final File secKeyRing, final String secKeyRingPassword) {
         this.pubKeyRing = pubKeyRing;
         this.secKeyRing = secKeyRing;
         this.secKeyRingPassword = secKeyRingPassword;
-    }
-    
-    static void installBCProvider() {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-            Security.addProvider(new BouncyCastleProvider());
-        }
     }
 
     public void decrypt(final Path sourceFile, final Path destFile) {

@@ -27,7 +27,7 @@ import org.bouncycastle.util.io.Streams;
 public class EncryptMain extends CryptographyAbstract {
 
     private final String sender;
-    private final String recipient;
+    private final String receiver;
     private final File pubKeyRing;
     private final File secKeyRing;
     private final String secKeyRingPassword;
@@ -37,15 +37,15 @@ public class EncryptMain extends CryptographyAbstract {
     *
     * @author Preda
     * @param pubKeyRing 
-    * @param recipient 
+    * @param receiver 
     * @param secKeyRing 
     * @param secKeyRingPassword 
     * @param sender 
     */
-    public EncryptMain(final String sender, final String recipient, final File pubKeyRing,
+    public EncryptMain(final String sender, final String receiver, final File pubKeyRing,
             final File secKeyRing, final String secKeyRingPassword) {
         this.sender = sender;
-        this.recipient = recipient;
+        this.receiver = receiver;
         this.pubKeyRing = pubKeyRing;
         this.secKeyRing = secKeyRing;
         this.secKeyRingPassword = secKeyRingPassword;
@@ -91,7 +91,7 @@ public class EncryptMain extends CryptographyAbstract {
                             .encryptToStream()
                             .withConfig(k2)
                             .withStrongAlgorithms()
-                            .toRecipient(recipient)
+                            .toRecipient(receiver)
                             .andSignWith(sender)
                             .binaryOutput()
                             .andWriteTo(bufferedOut);

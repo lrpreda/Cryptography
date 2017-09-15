@@ -24,8 +24,8 @@ public class TestCrypt {
         File receiverPublicKey= new File(lProp.getValue("receiverPublicKey"));
         
         //Used to decrypt
-        File receiverPrivateKey = new File(lProp.getValue("receiverPrivateDecryKey"));
-        File senderPublicKey = new File(lProp.getValue("senderPublicDecryKey"));
+        File receiverPrivateKey = new File(lProp.getValue("receiverPrivateKey"));
+        File senderPublicKey = new File(lProp.getValue("senderPublicKey"));
         
         
        File fileToBeEncrypted = new File("c://dev_tools//FILETO.ORIGINAL");
@@ -37,10 +37,6 @@ public class TestCrypt {
 
        DecryptMain decry = new DecryptMain(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));
        decry.decrypt(new FileInputStream(fout),fDec.toPath());
-//       File f = new File("c://dev_tools//FILETO.txt");
-//       File fout = new File("c://dev_tools//FILETO2.txt");
-//       
-//        encry.encrypt(new FileInputStream(f), fout.toPath());
     }
     
 }

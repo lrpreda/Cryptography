@@ -87,28 +87,64 @@ public class EncryptMain extends CryptographyAbstract {
                     final OutputStream fileOutput = Files.newOutputStream(destFile);
                     //Write to dest file using the buffsize (fixed parameter in abstract super)
                     final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
-
                     final OutputStream outputStream = BouncyGPG
-                            .encryptToStream()
-                            .withConfig(k2)
-                            .withAlgorithms(getAlgo())
-                            .toRecipient(receiver)
-                            .andSignWith(sender)
-                            .binaryOutput()
-                            .andWriteTo(bufferedOut);
+                    .encryptToStream()
+                    .withConfig(k2)
+                    .withAlgorithms(getAlgo())
+                    .toRecipient(receiver)
+                    .andSignWith(sender)
+                    .binaryOutput()
+                    .andWriteTo(bufferedOut);
                     final InputStream is = sourceStream) {
                 Streams.pipeAll(is, outputStream);
             }
             long endTime = System.currentTimeMillis();
 
             System.out.format("Encryption took %.2f s\n", ((double) endTime - startTime) / 1000);
-        } catch (IOException
-                | PGPException
-                | SignatureException
-                | NoSuchAlgorithmException
-                | NoSuchProviderException e) {
+        } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
             Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+
+    /**
+     * Encrypt source inputStream to dest (path)
+     *
+     * @param bufferedOut
+     * @return OutputStream
+     */
+    //public OutputStream getOutputStreamToEncrypt(final BufferedOutputStream bufferedOut) {
+    public OutputStream getOutputStreamToEncrypt(final Path destFile) {
+        OutputStream outputStream = null;
+        try {
+            installBCProvider();
+
+            System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
+
+            final OutputStream fileOutput = Files.newOutputStream(destFile);
+            //Write to dest file using the buffsize (fixed parameter in abstract super)
+            final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
+
+            //Config keyingConfig (pubkey, seckey and password)
+            final KeyringConfig k2 = KeyringConfigs.withKeyRingsFromFiles(pubKeyRing,
+                    secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
+
+            //Write to dest file using the buffsize (fixed parameter in abstract super)
+            //final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
+            outputStream = BouncyGPG
+                    .encryptToStream()
+                    .withConfig(k2)
+                    .withAlgorithms(getAlgo())
+                    .toRecipient(receiver)
+                    .andSignWith(sender)
+                    .binaryOutput()
+                    .andWriteTo(bufferedOut);
+            //System.out.format("Encryption took %.2f s\n", ((double) endTime - startTime) / 1000);
+
+        } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
+            System.err.format("ERROR: %s", e.getMessage());
+            Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return outputStream;
     }
 }

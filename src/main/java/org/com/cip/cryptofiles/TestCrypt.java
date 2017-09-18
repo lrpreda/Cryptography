@@ -5,11 +5,8 @@
  */
 package org.com.cip.cryptofiles;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import org.com.cip.cryptofiles.utils.LoadProperties;
 
@@ -41,18 +38,31 @@ public class TestCrypt {
         DecryptMain decry = new DecryptMain(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));
         decry.decrypt(new FileInputStream(fout), fDec.toPath());
 
-        String OUTPUT_FILE = "c://dev_tools//testFile.txt";
-        String content = "Hello Java Code Geeks 2";
+        String OUTPUT_FILE = "c://dev_tools//testFile.cry";
+        EncryptMain encry2 = new EncryptMain(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
+        
+        //BufferedOutputStream buffOut = new BufferedOutputStream(new FileOutputStream(new File(OUTPUT_FILE)));
+        String content = new String("Leandro");
+        String content2;
         byte[] bytes = content.getBytes();
 
-        EncryptMain encry2 = new EncryptMain(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
-        //BufferedOutputStream buffOut = new BufferedOutputStream(new FileOutputStream(new File(OUTPUT_FILE)));
         OutputStream out = encry2.getOutputStreamToEncrypt(new File(OUTPUT_FILE).toPath());
         out.write(bytes);
         out.write(bytes[0]);
-        out.write(bytes, 4, 10);
+        //out.write(bytes, 4, 10);
+        for (int i = 0; i < 10; i++) {
+            content2 = "Write : " + i;
+            out.write(content2.getBytes());
+        }
         out.flush();
-
+        out.close();
+//
+        File fout2 = new File(OUTPUT_FILE);
+        File fDec2 = new File("c://dev_tools//FILE_DEC2.txt");
+        
+        DecryptMain decry2 = new DecryptMain(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));
+        decry2.decrypt(new FileInputStream(fout2), fDec2.toPath());
+        
     }
 
 }

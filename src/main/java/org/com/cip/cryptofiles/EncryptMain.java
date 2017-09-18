@@ -44,11 +44,12 @@ public class EncryptMain extends CryptographyAbstract {
      */
     public EncryptMain(final String sender, final String receiver, final File pubKeyRing,
             final File secKeyRing, final String secKeyRingPassword) {
+        super();
         this.sender = sender;
         this.receiver = receiver;
         this.pubKeyRing = pubKeyRing;
         this.secKeyRing = secKeyRing;
-        this.secKeyRingPassword = secKeyRingPassword;
+        this.secKeyRingPassword = secKeyRingPassword;   
     }
 
     /**
@@ -73,7 +74,6 @@ public class EncryptMain extends CryptographyAbstract {
      */
     public void encrypt(final InputStream sourceStream, final Path destFile) {
         try {
-            installBCProvider();
             long startTime = System.currentTimeMillis();
 
             System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
@@ -108,20 +108,18 @@ public class EncryptMain extends CryptographyAbstract {
     }
 
     /**
-     * Encrypt source inputStream to dest (path)
+     * Get outputStream from destFile to write 
      *
-     * @param bufferedOut
+     * @param destFile
      * @return OutputStream
      */
-    //public OutputStream getOutputStreamToEncrypt(final BufferedOutputStream bufferedOut) {
     public OutputStream getOutputStreamToEncrypt(final Path destFile) {
         OutputStream outputStream = null;
         try {
-            installBCProvider();
-
             System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
 
             final OutputStream fileOutput = Files.newOutputStream(destFile);
+            
             //Write to dest file using the buffsize (fixed parameter in abstract super)
             final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
 
@@ -139,7 +137,6 @@ public class EncryptMain extends CryptographyAbstract {
                     .andSignWith(sender)
                     .binaryOutput()
                     .andWriteTo(bufferedOut);
-            //System.out.format("Encryption took %.2f s\n", ((double) endTime - startTime) / 1000);
 
         } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());

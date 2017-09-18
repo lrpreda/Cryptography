@@ -35,6 +35,7 @@ public class DecryptMain extends CryptographyAbstract {
      * @param secKeyRingPassword
      */
     public DecryptMain(final File pubKeyRing, final File secKeyRing, final String secKeyRingPassword) {
+        super();
         this.pubKeyRing = pubKeyRing;
         this.secKeyRing = secKeyRing;
         this.secKeyRingPassword = secKeyRingPassword;
@@ -48,7 +49,6 @@ public class DecryptMain extends CryptographyAbstract {
      */
     public void decrypt(final InputStream sourceStream, final Path destFile) {
         try {
-            installBCProvider();
             long startTime = System.currentTimeMillis();
 
             System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);

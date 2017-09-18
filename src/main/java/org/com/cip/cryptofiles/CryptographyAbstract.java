@@ -18,20 +18,29 @@ public abstract class CryptographyAbstract {
     //Can be tunned for performance problems
     final int BUFFSIZE = 8 * 1024;
 
-    //Add BC provider
+    /**
+     * initialize BC provider
+     */
     static void installBCProvider() {
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
     }
-    
+
+    /**
+     * Default constructor
+     */
+    public CryptographyAbstract() {
+        installBCProvider();
+    }
+
     //Get String algorithms AES 256
-    public PGPAlgorithmSuite getAlgo(){    
-                    return new PGPAlgorithmSuite(
-                        PGPHashAlgorithms.SHA_256,
-                        PGPSymmetricEncryptionAlgorithms.AES_256, 
-                        PGPCompressionAlgorithms.ZLIB
-                    );
+    public PGPAlgorithmSuite getAlgo() {
+        return new PGPAlgorithmSuite(
+                PGPHashAlgorithms.SHA_256,
+                PGPSymmetricEncryptionAlgorithms.AES_256,
+                PGPCompressionAlgorithms.ZLIB
+        );
 
     }
 }

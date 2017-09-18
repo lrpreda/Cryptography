@@ -21,7 +21,7 @@ import org.bouncycastle.util.io.Streams;
 
 /**
  * Class used to encrypt based on properties file
- * 
+ *
  * @author Preda
  */
 public class EncryptMain extends CryptographyAbstract {
@@ -31,17 +31,17 @@ public class EncryptMain extends CryptographyAbstract {
     private final File pubKeyRing;
     private final File secKeyRing;
     private final String secKeyRingPassword;
-    
+
     /**
-    * Default constructor
-    *
-    * @author Preda
-    * @param pubKeyRing 
-    * @param receiver 
-    * @param secKeyRing 
-    * @param secKeyRingPassword 
-    * @param sender 
-    */
+     * Default constructor
+     *
+     * @author Preda
+     * @param pubKeyRing
+     * @param receiver
+     * @param secKeyRing
+     * @param secKeyRingPassword
+     * @param sender
+     */
     public EncryptMain(final String sender, final String receiver, final File pubKeyRing,
             final File secKeyRing, final String secKeyRingPassword) {
         this.sender = sender;
@@ -53,9 +53,9 @@ public class EncryptMain extends CryptographyAbstract {
 
     /**
      * Encrypt source file (path) to dest file
-     * 
+     *
      * @param sourceFile
-     * @param destFile 
+     * @param destFile
      */
     public void encrypt(final Path sourceFile, final Path destFile) {
         try {
@@ -67,9 +67,9 @@ public class EncryptMain extends CryptographyAbstract {
 
     /**
      * Encrypt source inputStream to dest (path)
-     * 
+     *
      * @param sourceStream
-     * @param destFile 
+     * @param destFile
      */
     public void encrypt(final InputStream sourceStream, final Path destFile) {
         try {
@@ -81,16 +81,17 @@ public class EncryptMain extends CryptographyAbstract {
             //Config keyingConfig (pubkey, seckey and password)
             final KeyringConfig k2 = KeyringConfigs.withKeyRingsFromFiles(pubKeyRing,
                     secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
-            
+
             //Open all resources 
             try (
                     final OutputStream fileOutput = Files.newOutputStream(destFile);
                     //Write to dest file using the buffsize (fixed parameter in abstract super)
                     final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
+
                     final OutputStream outputStream = BouncyGPG
                             .encryptToStream()
                             .withConfig(k2)
-                            .withStrongAlgorithms()
+                            .withAlgorithms(getAlgo())
                             .toRecipient(receiver)
                             .andSignWith(sender)
                             .binaryOutput()
@@ -101,13 +102,13 @@ public class EncryptMain extends CryptographyAbstract {
             long endTime = System.currentTimeMillis();
 
             System.out.format("Encryption took %.2f s\n", ((double) endTime - startTime) / 1000);
-        } catch (IOException|
-                PGPException|
-                SignatureException|
-                NoSuchAlgorithmException|
-                NoSuchProviderException e) {
+        } catch (IOException
+                | PGPException
+                | SignatureException
+                | NoSuchAlgorithmException
+                | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
             Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
     }
 }

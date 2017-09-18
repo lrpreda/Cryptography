@@ -1,6 +1,10 @@
 package org.com.cip.cryptofiles;
 
 import java.security.Security;
+import name.neuhalfen.projects.crypto.bouncycastle.openpgp.algorithms.PGPAlgorithmSuite;
+import name.neuhalfen.projects.crypto.bouncycastle.openpgp.algorithms.PGPCompressionAlgorithms;
+import name.neuhalfen.projects.crypto.bouncycastle.openpgp.algorithms.PGPHashAlgorithms;
+import name.neuhalfen.projects.crypto.bouncycastle.openpgp.algorithms.PGPSymmetricEncryptionAlgorithms;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
@@ -19,5 +23,15 @@ public abstract class CryptographyAbstract {
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
+    }
+    
+    //Get String algorithms AES 256
+    public PGPAlgorithmSuite getAlgo(){    
+                    return new PGPAlgorithmSuite(
+                        PGPHashAlgorithms.SHA_256,
+                        PGPSymmetricEncryptionAlgorithms.AES_256, 
+                        PGPCompressionAlgorithms.ZLIB
+                    );
+
     }
 }

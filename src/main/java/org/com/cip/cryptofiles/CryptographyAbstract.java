@@ -43,4 +43,14 @@ public abstract class CryptographyAbstract {
         );
 
     }
+    
+    //Get String algorithms AES 256
+    public PGPAlgorithmSuite getAlgoUncompressed() {
+        return new PGPAlgorithmSuite(
+                PGPHashAlgorithms.SHA_256,
+                PGPSymmetricEncryptionAlgorithms.AES_256,
+                PGPCompressionAlgorithms.UNCOMPRESSED
+        );
+
+    }
 }

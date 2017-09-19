@@ -1,6 +1,7 @@
 package org.com.cip.cryptofiles;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,6 +67,50 @@ public class EncryptMain extends CryptographyAbstract {
         }
     }
 
+    /**
+     * Encrypt source inputStream to dest (path)
+     *
+     * @param sourceStream
+     * @param destFile
+     */
+    public void encryptFromSourceStream(final ByteArrayOutputStream sourceStream, final Path destFile) throws IOException {
+        OutputStream outputStream = null;
+        try {
+            long startTime = System.currentTimeMillis();
+
+            System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
+
+            //Config keyingConfig (pubkey, seckey and password)
+            final KeyringConfig k2 = KeyringConfigs.withKeyRingsFromFiles(pubKeyRing,
+                    secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
+
+            //Open all resources 
+                    final OutputStream fileOutput = Files.newOutputStream(destFile);
+                    //Write to dest file using the buffsize (fixed parameter in abstract super)
+                    final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
+                    outputStream = BouncyGPG
+                    .encryptToStream()
+                    .withConfig(k2)
+                    .withAlgorithms(getAlgo())
+                    .toRecipient(receiver)
+                    .andSignWith(sender)
+                    .binaryOutput()
+                    .andWriteTo(bufferedOut);
+                    
+                Streams.writeBufTo(sourceStream, outputStream);
+            long endTime = System.currentTimeMillis();
+            System.out.println(sourceStream.toString());
+
+            System.out.format("Encryption BUFF took %.2f s\n", ((double) endTime - startTime) / 1000);
+        } catch (PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
+            System.err.format("ERROR: %s", e.getMessage());
+            Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
+        }
+        finally{
+            outputStream.close();
+        }
+    }
+    
     /**
      * Encrypt source inputStream to dest (path)
      *

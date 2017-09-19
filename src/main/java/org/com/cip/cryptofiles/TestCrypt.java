@@ -5,9 +5,9 @@
  */
 package org.com.cip.cryptofiles;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.OutputStream;
 import org.com.cip.cryptofiles.utils.LoadProperties;
 
 /**
@@ -40,29 +40,32 @@ public class TestCrypt {
 
         String OUTPUT_FILE = "c://dev_tools//testFile.cry";
         EncryptMain encry2 = new EncryptMain(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
-        
+
         //BufferedOutputStream buffOut = new BufferedOutputStream(new FileOutputStream(new File(OUTPUT_FILE)));
         String content = new String("Leandro");
         String content2;
         byte[] bytes = content.getBytes();
 
-        OutputStream out = encry2.getOutputStreamToEncrypt(new File(OUTPUT_FILE).toPath());
-        out.write(bytes);
-        out.write(bytes[0]);
+        ByteArrayOutputStream baOut = new ByteArrayOutputStream();
+
+        baOut.write(bytes);
+        baOut.write(bytes[0]);
         //out.write(bytes, 4, 10);
         for (int i = 0; i < 10; i++) {
             content2 = "Write : " + i;
-            out.write(content2.getBytes());
+            baOut.write(content2.getBytes());
         }
-        out.flush();
-        out.close();
+        encry2.encryptFromSourceStream(baOut, new File(OUTPUT_FILE).toPath());
+        //  Streams.writeBufTo(baOut, out);
+//        out.flush();
+//        out.close();
 //
         File fout2 = new File(OUTPUT_FILE);
         File fDec2 = new File("c://dev_tools//FILE_DEC2.txt");
-        
+
         DecryptMain decry2 = new DecryptMain(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));
         decry2.decrypt(new FileInputStream(fout2), fDec2.toPath());
-        
+
     }
 
 }

@@ -39,28 +39,24 @@ public class TestCrypt {
         decry.decrypt(new FileInputStream(fout), fDec.toPath());
 
         String OUTPUT_FILE = "c://dev_tools//testFile.cry";
+        File fout2 = new File(OUTPUT_FILE);
+        
         EncryptMain encry2 = new EncryptMain(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
 
-        //BufferedOutputStream buffOut = new BufferedOutputStream(new FileOutputStream(new File(OUTPUT_FILE)));
+        ByteArrayOutputStream baOut = new ByteArrayOutputStream();
         String content = new String("Leandro");
         String content2;
         byte[] bytes = content.getBytes();
-
-        ByteArrayOutputStream baOut = new ByteArrayOutputStream();
-
-        baOut.write(bytes);
-        baOut.write(bytes[0]);
+       
+        //OutputStream baOut = encry2.getOutputStreamToEncrypt(new File(OUTPUT_FILE).toPath());       
         //out.write(bytes, 4, 10);
+        baOut.write(content.getBytes());
         for (int i = 0; i < 10; i++) {
             content2 = "Write : " + i;
             baOut.write(content2.getBytes());
         }
-        encry2.encryptFromSourceStream(baOut, new File(OUTPUT_FILE).toPath());
-        //  Streams.writeBufTo(baOut, out);
-//        out.flush();
-//        out.close();
-//
-        File fout2 = new File(OUTPUT_FILE);
+        encry2.encryptFromSourceStream(baOut, fout2.toPath());
+
         File fDec2 = new File("c://dev_tools//FILE_DEC2.txt");
 
         DecryptMain decry2 = new DecryptMain(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));

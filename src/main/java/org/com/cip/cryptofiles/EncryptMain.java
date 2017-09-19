@@ -50,7 +50,7 @@ public class EncryptMain extends CryptographyAbstract {
         this.receiver = receiver;
         this.pubKeyRing = pubKeyRing;
         this.secKeyRing = secKeyRing;
-        this.secKeyRingPassword = secKeyRingPassword;   
+        this.secKeyRingPassword = secKeyRingPassword;
     }
 
     /**
@@ -73,8 +73,8 @@ public class EncryptMain extends CryptographyAbstract {
      * @param sourceStream
      * @param destFile
      */
-    public void encryptFromSourceStream(final ByteArrayOutputStream sourceStream, final Path destFile) throws IOException {
-        OutputStream outputStream = null;
+    public void encryptFromSourceStream(final ByteArrayOutputStream sourceStream, final Path destFile)  {
+
         try {
             long startTime = System.currentTimeMillis();
 
@@ -85,19 +85,22 @@ public class EncryptMain extends CryptographyAbstract {
                     secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
 
             //Open all resources 
-                    final OutputStream fileOutput = Files.newOutputStream(destFile);
-                    //Write to dest file using the buffsize (fixed parameter in abstract super)
-                    final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
-                    outputStream = BouncyGPG
+            final OutputStream fileOutput = Files.newOutputStream(destFile);
+            //Write to dest file using the buffsize (fixed parameter in abstract super)
+            final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
+            try (OutputStream outputStream = BouncyGPG
                     .encryptToStream()
                     .withConfig(k2)
                     .withAlgorithms(getAlgo())
                     .toRecipient(receiver)
                     .andSignWith(sender)
-                    .binaryOutput()
-                    .andWriteTo(bufferedOut);
-                    
+                    .armorAsciiOutput()
+                    .andWriteTo(bufferedOut)) {
                 Streams.writeBufTo(sourceStream, outputStream);
+                outputStream.flush();
+                outputStream.close();
+            }
+            
             long endTime = System.currentTimeMillis();
             System.out.println(sourceStream.toString());
 
@@ -105,12 +108,9 @@ public class EncryptMain extends CryptographyAbstract {
         } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
             Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
-        }
-        finally{
-            outputStream.close();
-        }
+        } 
     }
-    
+
     /**
      * Encrypt source inputStream to dest (path)
      *
@@ -133,13 +133,13 @@ public class EncryptMain extends CryptographyAbstract {
                     //Write to dest file using the buffsize (fixed parameter in abstract super)
                     final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
                     final OutputStream outputStream = BouncyGPG
-                    .encryptToStream()
-                    .withConfig(k2)
-                    .withAlgorithms(getAlgo())
-                    .toRecipient(receiver)
-                    .andSignWith(sender)
-                    .binaryOutput()
-                    .andWriteTo(bufferedOut);
+                            .encryptToStream()
+                            .withConfig(k2)
+                            .withAlgorithms(getAlgo())
+                            .toRecipient(receiver)
+                            .andSignWith(sender)
+                            .armorAsciiOutput()
+                            .andWriteTo(bufferedOut);
                     final InputStream is = sourceStream) {
                 Streams.pipeAll(is, outputStream);
             }
@@ -153,7 +153,7 @@ public class EncryptMain extends CryptographyAbstract {
     }
 
     /**
-     * Get outputStream from destFile to write 
+     * Get outputStream from destFile to write
      *
      * @param destFile
      * @return OutputStream
@@ -164,7 +164,7 @@ public class EncryptMain extends CryptographyAbstract {
             System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
 
             final OutputStream fileOutput = Files.newOutputStream(destFile);
-            
+
             //Write to dest file using the buffsize (fixed parameter in abstract super)
             final BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOutput, BUFFSIZE);
 
@@ -180,7 +180,7 @@ public class EncryptMain extends CryptographyAbstract {
                     .withAlgorithms(getAlgo())
                     .toRecipient(receiver)
                     .andSignWith(sender)
-                    .binaryOutput()
+                    .armorAsciiOutput()
                     .andWriteTo(bufferedOut);
 
         } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {

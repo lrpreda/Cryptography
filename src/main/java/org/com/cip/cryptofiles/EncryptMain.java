@@ -102,7 +102,7 @@ public class EncryptMain extends CryptographyAbstract {
             System.out.println(sourceStream.toString());
 
             System.out.format("Encryption BUFF took %.2f s\n", ((double) endTime - startTime) / 1000);
-        } catch (PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
+        } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
             Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
         }

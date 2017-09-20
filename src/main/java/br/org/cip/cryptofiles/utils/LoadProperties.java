@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.com.cip.cryptofiles.utils;
+package br.org.cip.cryptofiles.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

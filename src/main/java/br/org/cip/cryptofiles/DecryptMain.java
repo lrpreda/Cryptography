@@ -1,4 +1,4 @@
-package org.com.cip.cryptofiles;
+package br.org.cip.cryptofiles;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

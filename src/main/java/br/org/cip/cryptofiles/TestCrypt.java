@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.com.cip.cryptofiles;
+package br.org.cip.cryptofiles;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import org.com.cip.cryptofiles.utils.LoadProperties;
+import br.org.cip.cryptofiles.utils.LoadProperties;
 
 /**
  *

@@ -1,4 +1,4 @@
-package org.com.cip.cryptofiles;
+package br.org.cip.cryptofiles;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -98,7 +98,7 @@ public class EncryptMain extends CryptographyAbstract {
                     .andWriteTo(bufferedOut)) {
                 Streams.writeBufTo(sourceStream, outputStream);
                 outputStream.flush();
-                outputStream.close();
+               // outputStream.close();
             }
             
             long endTime = System.currentTimeMillis();

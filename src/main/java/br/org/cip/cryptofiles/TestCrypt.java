@@ -5,6 +5,7 @@
  */
 package br.org.cip.cryptofiles;
 
+import br.org.cip.io.EnhancedByteArrayOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,17 +44,18 @@ public class TestCrypt {
         
         EncryptMain encry2 = new EncryptMain(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
 
-        ByteArrayOutputStream baOut = new ByteArrayOutputStream();
+        EnhancedByteArrayOutputStream baOut = new EnhancedByteArrayOutputStream();
         String content = new String("Leandro");
-        String content2;
-        byte[] bytes = content.getBytes();
+       String content2;
+//        byte[] bytes = content.getBytes();
        
         //OutputStream baOut = encry2.getOutputStreamToEncrypt(new File(OUTPUT_FILE).toPath());       
         //out.write(bytes, 4, 10);
-        baOut.write(content.getBytes());
+        baOut.write(content);
         for (int i = 0; i < 10; i++) {
             content2 = "Write : " + i;
-            baOut.write(content2.getBytes());
+            baOut.write(content2);
+            baOut.nextLine();
         }
         encry2.encryptFromSourceStream(baOut, fout2.toPath());
 

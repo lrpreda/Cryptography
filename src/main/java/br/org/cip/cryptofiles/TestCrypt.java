@@ -33,16 +33,16 @@ public class TestCrypt {
         File fout = new File("c://dev_tools//FILEENCR.kry");
         File fDec = new File("c://dev_tools//FILE_DEC.txt");
 
-        EncryptMain encry = new EncryptMain(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
+        Encrypt encry = new Encrypt(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
         encry.encrypt(new FileInputStream(fileToBeEncrypted), fout.toPath());
 
-        DecryptMain decry = new DecryptMain(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));
+        Decrypt decry = new Decrypt(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));
         decry.decrypt(new FileInputStream(fout), fDec.toPath());
 
         String OUTPUT_FILE = "c://dev_tools//testFile.cry";
         File fout2 = new File(OUTPUT_FILE);
         
-        EncryptMain encry2 = new EncryptMain(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
+        Encrypt encry2 = new Encrypt(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
 
         EnhancedByteArrayOutputStream baOut = new EnhancedByteArrayOutputStream();
         String content = new String("Leandro");
@@ -61,7 +61,7 @@ public class TestCrypt {
 
         File fDec2 = new File("c://dev_tools//FILE_DEC2.txt");
 
-        DecryptMain decry2 = new DecryptMain(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));
+        Decrypt decry2 = new Decrypt(senderPublicKey, receiverPrivateKey, lProp.getValue("receiverKeyPassword"));
         decry2.decrypt(new FileInputStream(fout2), fDec2.toPath());
 
     }

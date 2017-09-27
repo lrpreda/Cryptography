@@ -21,7 +21,7 @@ import org.bouncycastle.util.io.Streams;
  *
  * @author Preda
  */
-public class DecryptMain extends CryptographyAbstract {
+public class Decrypt extends CryptographyAbstract {
 
     private final File pubKeyRing;
     private final File secKeyRing;
@@ -34,7 +34,7 @@ public class DecryptMain extends CryptographyAbstract {
      * @param secKeyRing
      * @param secKeyRingPassword
      */
-    public DecryptMain(final File pubKeyRing, final File secKeyRing, final String secKeyRingPassword) {
+    public Decrypt(final File pubKeyRing, final File secKeyRing, final String secKeyRingPassword) {
         super();
         this.pubKeyRing = pubKeyRing;
         this.secKeyRing = secKeyRing;
@@ -73,7 +73,7 @@ public class DecryptMain extends CryptographyAbstract {
         } catch (IOException
                 | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
-            Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Encrypt.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -87,7 +87,7 @@ public class DecryptMain extends CryptographyAbstract {
         try {
             decrypt(Files.newInputStream(sourceFile), destFile);
         } catch (IOException ex) {
-            Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Encrypt.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

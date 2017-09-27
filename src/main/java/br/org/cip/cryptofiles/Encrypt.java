@@ -25,7 +25,7 @@ import org.bouncycastle.util.io.Streams;
  *
  * @author Preda
  */
-public class EncryptMain extends CryptographyAbstract {
+public class Encrypt extends CryptographyAbstract {
 
     private final String sender;
     private final String receiver;
@@ -43,7 +43,7 @@ public class EncryptMain extends CryptographyAbstract {
      * @param secKeyRingPassword
      * @param sender
      */
-    public EncryptMain(final String sender, final String receiver, final File pubKeyRing,
+    public Encrypt(final String sender, final String receiver, final File pubKeyRing,
             final File secKeyRing, final String secKeyRingPassword) {
         super();
         this.sender = sender;
@@ -63,7 +63,7 @@ public class EncryptMain extends CryptographyAbstract {
         try {
             encrypt(Files.newInputStream(sourceFile), destFile);
         } catch (IOException ex) {
-            Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Encrypt.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -107,7 +107,7 @@ public class EncryptMain extends CryptographyAbstract {
             System.out.format("Encryption BUFF took %.2f s\n", ((double) endTime - startTime) / 1000);
         } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
-            Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Encrypt.class.getName()).log(Level.SEVERE, null, e);
         } 
     }
 
@@ -148,7 +148,7 @@ public class EncryptMain extends CryptographyAbstract {
             System.out.format("Encryption took %.2f s\n", ((double) endTime - startTime) / 1000);
         } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
-            Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Encrypt.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -185,7 +185,7 @@ public class EncryptMain extends CryptographyAbstract {
 
         } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
-            Logger.getLogger(EncryptMain.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Encrypt.class.getName()).log(Level.SEVERE, null, e);
         }
         return outputStream;
     }

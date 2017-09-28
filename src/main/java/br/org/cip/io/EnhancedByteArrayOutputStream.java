@@ -40,7 +40,7 @@ public class EnhancedByteArrayOutputStream extends ByteArrayOutputStream {
      * Write to buffer using String
      * 
      * @param strS
-     * @throws IOException 
+     * @throws IOException
      */
     public void write(String strS) throws IOException {
         write(strS.getBytes());

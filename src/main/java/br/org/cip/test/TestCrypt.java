@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.org.cip.cryptofiles;
+package br.org.cip.test;
 
+import br.org.cip.cryptofiles.Decrypt;
+import br.org.cip.cryptofiles.Decrypt;
+import br.org.cip.cryptofiles.Encrypt;
+import br.org.cip.cryptofiles.Encrypt;
 import br.org.cip.io.EnhancedByteArrayOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import br.org.cip.cryptofiles.utils.LoadProperties;

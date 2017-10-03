@@ -76,10 +76,6 @@ public class Encrypt extends CryptographyAbstract {
     public void encryptFromSourceStream(final ByteArrayOutputStream sourceStream, final Path destFile)  {
 
         try {
-            long startTime = System.currentTimeMillis();
-
-            System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
-
             //Config keyingConfig (pubkey, seckey and password)
             final KeyringConfig k2 = KeyringConfigs.withKeyRingsFromFiles(pubKeyRing,
                     secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
@@ -98,13 +94,8 @@ public class Encrypt extends CryptographyAbstract {
                     .andWriteTo(bufferedOut)) {
                 Streams.writeBufTo(sourceStream, outputStream);
                 outputStream.flush();
-               // outputStream.close();
             }
             
-            long endTime = System.currentTimeMillis();
-            System.out.println(sourceStream.toString());
-
-            System.out.format("Encryption BUFF took %.2f s\n", ((double) endTime - startTime) / 1000);
         } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
             Logger.getLogger(Encrypt.class.getName()).log(Level.SEVERE, null, e);
@@ -119,10 +110,6 @@ public class Encrypt extends CryptographyAbstract {
      */
     public void encrypt(final InputStream sourceStream, final Path destFile) {
         try {
-            long startTime = System.currentTimeMillis();
-
-            System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
-
             //Config keyingConfig (pubkey, seckey and password)
             final KeyringConfig k2 = KeyringConfigs.withKeyRingsFromFiles(pubKeyRing,
                     secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
@@ -143,9 +130,6 @@ public class Encrypt extends CryptographyAbstract {
                     final InputStream is = sourceStream) {
                 Streams.pipeAll(is, outputStream);
             }
-            long endTime = System.currentTimeMillis();
-
-            System.out.format("Encryption took %.2f s\n", ((double) endTime - startTime) / 1000);
         } catch (IOException | PGPException | SignatureException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());
             Logger.getLogger(Encrypt.class.getName()).log(Level.SEVERE, null, e);
@@ -161,8 +145,6 @@ public class Encrypt extends CryptographyAbstract {
     public OutputStream getOutputStreamToEncrypt(final Path destFile) {
         OutputStream outputStream = null;
         try {
-            System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
-
             final OutputStream fileOutput = Files.newOutputStream(destFile);
 
             //Write to dest file using the buffsize (fixed parameter in abstract super)

@@ -49,9 +49,6 @@ public class Decrypt extends CryptographyAbstract {
      */
     public void decrypt(final InputStream sourceStream, final Path destFile) {
         try {
-            long startTime = System.currentTimeMillis();
-
-            System.out.format("-- Using a write buffer of %d bytes\n", BUFFSIZE);
 
             final KeyringConfig keyringConfigFor = KeyringConfigs.withKeyRingsFromFiles(pubKeyRing,
                     secKeyRing, KeyringConfigCallbacks.withPassword(secKeyRingPassword));
@@ -67,9 +64,7 @@ public class Decrypt extends CryptographyAbstract {
                             .fromEncryptedInputStream(sourceStream)) {
                 Streams.pipeAll(plaintextStream, bufferedOut);
             }
-            long endTime = System.currentTimeMillis();
 
-            System.out.format("Decryption took %.2f s\n", ((double) endTime - startTime) / 1000);
         } catch (IOException
                 | NoSuchProviderException e) {
             System.err.format("ERROR: %s", e.getMessage());

@@ -6,8 +6,6 @@
 package br.org.cip.test;
 
 import br.org.cip.cryptofiles.Decrypt;
-import br.org.cip.cryptofiles.Decrypt;
-import br.org.cip.cryptofiles.Encrypt;
 import br.org.cip.cryptofiles.Encrypt;
 import br.org.cip.io.EnhancedByteArrayOutputStream;
 import java.io.File;

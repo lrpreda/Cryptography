@@ -1,4 +1,4 @@
-package br.org.cip.cryptofiles;
+package br.com.crypto;
 
 import java.security.Security;
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.algorithms.PGPAlgorithmSuite;

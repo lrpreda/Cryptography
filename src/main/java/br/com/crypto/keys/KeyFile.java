@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.org.cip.cryptokeys;
+package br.com.crypto.keys;
 
 import java.io.File;
 

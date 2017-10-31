@@ -1,4 +1,4 @@
-package br.org.cip.io;
+package br.com.crypto.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

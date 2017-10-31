@@ -52,7 +52,7 @@
                     </execution>
                 </executions>
                 <configuration>                         
-                    <mainClass>br.org.cip.test.TestCrypt</mainClass>
+                    <mainClass>br.com.crypto.test.TestCrypt</mainClass>
                 </configuration>
             </plugin>
             <plugin>

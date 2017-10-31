@@ -11,6 +11,7 @@ import br.com.crypto.io.EnhancedByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import br.com.crypto.utils.LoadProperties;
+import org.apache.commons.lang.RandomStringUtils;
 
 /**
  *
@@ -46,18 +47,13 @@ public class TestCrypt {
         Encrypt encry2 = new Encrypt(lProp.getValue("sender"), lProp.getValue("receiver"), receiverPublicKey, senderPrivateKey, lProp.getValue("senderKeyPassword"));
 
         EnhancedByteArrayOutputStream baOut = new EnhancedByteArrayOutputStream();
-        String content = new String("Leandro");
-       String content2;
 //        byte[] bytes = content.getBytes();
        
         //OutputStream baOut = encry2.getOutputStreamToEncrypt(new File(OUTPUT_FILE).toPath());       
         //out.write(bytes, 4, 10);
-        baOut.write(content);
-        for (int i = 0; i < 10; i++) {
-            content2 = "Write : " + i;
-            baOut.write(content2);
-            baOut.nextLine();
-        }
+        
+        baOut.write(RandomStringUtils.randomAlphabetic(1000000));
+
         encry2.encryptFromSourceStream(baOut, fout2.toPath());
 
         File fDec2 = new File("c://dev_tools//FILE_DEC2.txt");
